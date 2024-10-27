@@ -1,16 +1,17 @@
-# Use Ubuntu as the base image
-FROM ubuntu:latest
+# Step 1: Use Ubuntu as the base image
+FROM ubuntu:22.04
 
-# Install Nginx and Git
-RUN apt-get update && \
-    apt-get install -y nginx git && \
-    rm -rf /var/lib/apt/lists/*
+# Step 2: Install necessary packages (Nginx)
+RUN apt-get update && apt-get install -y nginx
 
-# Set the working directory to the Nginx default root
+# Step 3: Set the working directory
 WORKDIR /var/www/html
 
-# Expose port 80 for HTTP traffic
+# Step 4: Copy all the game files into the working directory
+COPY . .
+
+# Step 5: Expose the default port for Nginx
 EXPOSE 80
 
-# Start Nginx in the foreground (keep the container running)
+# Step 6: Start Nginx when the container runs
 CMD ["nginx", "-g", "daemon off;"]
